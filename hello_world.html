@@ -9,7 +9,7 @@
 
 <html>
 <head>
-    <script async src="../../build/dev/prebid.js"></script>
+    <script async src="../../build/dist/prebid.js"></script>
     <script async src="https://www.googletagservices.com/tag/js/gpt.js"></script>
     <script>
         var FAILSAFE_TIMEOUT = 3300;
@@ -24,9 +24,10 @@
             },
             // Replace this object to test a new Adapter!
             bids: [{
-                bidder: 'appnexus',
+                bidder: 'vidazoo',
                 params: {
-                    placementId: 13144370
+	                cId: '5a1c419d95fce900044c334e',
+	                pId: '59ac17c192832d0011283fe3',
                 }
             }]
 

@@ -21,7 +21,7 @@ function isBidRequestValid(bid) {
 }
 
 function buildRequest(bid, topWindowUrl, sizes, bidderRequest) {
-  const {params, bidId} = bid;
+  const {params, bidId, adUnitCode} = bid;
   const {bidFloor, cId, pId, ext} = params;
   let data = {
     url: encodeURIComponent(topWindowUrl),
@@ -29,6 +29,7 @@ function buildRequest(bid, topWindowUrl, sizes, bidderRequest) {
     bidFloor: bidFloor,
     bidId: bidId,
     publisherId: pId,
+    adUnitCode: adUnitCode,
     sizes: sizes,
   };
   if (bidderRequest.gdprConsent) {
@@ -39,8 +40,13 @@ function buildRequest(bid, topWindowUrl, sizes, bidderRequest) {
       data.gdpr = bidderRequest.gdprConsent.gdprApplies ? 1 : 0;
     }
   }
+
+  if (bidderRequest.uspConsent) {
+    data.usPrivacy = bidderRequest.uspConsent
+  }
+
   const dto = {
-    method: 'POST',
+    method: 'GET',
     url: `${URL}/prebid/multi/${cId}`,
     data: data
   };
