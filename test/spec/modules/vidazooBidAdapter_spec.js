@@ -102,6 +102,7 @@ const BIDDER_REQUEST = {
     'page': 'https://www.greatsite.com',
     'ref': 'https://www.somereferrer.com'
   },
+  'bidderCode': 'vidazoo',
   'ortb2': {
     'site': {
       'cat': ['IAB2'],
@@ -285,6 +286,7 @@ describe('VidazooBidAdapter', function () {
           uqs: getTopWindowQueryParams(),
           isStorageAllowed: true,
           webSessionId: webSessionId,
+          bidderCode: 'vidazoo',
           mediaTypes: {
             video: {
               api: [2],
@@ -353,7 +355,8 @@ describe('VidazooBidAdapter', function () {
           gpid: '1234567890',
           cat: ['IAB2'],
           pagecat: ['IAB2-2'],
-          webSessionId: webSessionId
+          webSessionId: webSessionId,
+          bidderCode: 'vidazoo'
         }
       });
     });
