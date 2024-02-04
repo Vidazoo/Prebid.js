@@ -16,6 +16,7 @@ const DEAL_ID_EXPIRY = 1000 * 60 * 15;
 const UNIQUE_DEAL_ID_EXPIRY = 1000 * 60 * 60;
 const SESSION_ID_KEY = 'vidSid';
 const OPT_CACHE_KEY = 'vdzwopt';
+let wonBids = [];
 export const webSessionId = 'wsid_' + parseInt(Date.now() * Math.random());
 const storage = getStorageManager({bidderCode: BIDDER_CODE});
 
@@ -147,6 +148,11 @@ function buildRequestData(bid, topWindowUrl, sizes, bidderRequest, bidderTimeout
   } else if (bidderRequest.ortb2?.regs?.gpp) {
     data.gppString = bidderRequest.ortb2.regs.gpp;
     data.gppSid = bidderRequest.ortb2.regs.gpp_sid;
+  }
+
+  if (wonBids) {
+    data.wonBids = wonBids;
+    wonBids = [];
   }
 
   _each(ext, (value, key) => {
@@ -350,6 +356,30 @@ function getUserSyncs(syncOptions, responses, gdprConsent = {}, uspConsent = '',
   return syncs;
 }
 
+/**
+ * @param {Bid} bid
+ */
+function onBidWon(bid) {
+  const wonBid = {
+    adId: bid.adId,
+    creativeId: bid.creativeId,
+    auctionId: bid.auctionId,
+    transactionId: bid.transactionId,
+    adUnitCode: bid.adUnitCode,
+    cpm: bid.cpm,
+    currency: bid.currency,
+    originalCpm: bid.originalCpm,
+    originalCurrency: bid.originalCurrency,
+    netRevenue: bid.netRevenue,
+    meta: bid.meta,
+    mediaType: bid.mediaType,
+    timeToRespond: bid.timeToRespond,
+    status: bid.status,
+    params: bid.params,
+  }
+  wonBids.push(wonBid);
+}
+
 export function hashCode(s, prefix = '_') {
   const l = s.length;
   let h = 0
@@ -445,7 +475,8 @@ export const spec = {
   isBidRequestValid,
   buildRequests,
   interpretResponse,
-  getUserSyncs
+  getUserSyncs,
+  onBidWon
 };
 
 registerBidder(spec);
