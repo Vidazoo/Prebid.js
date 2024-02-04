@@ -150,7 +150,7 @@ function buildRequestData(bid, topWindowUrl, sizes, bidderRequest, bidderTimeout
     data.gppSid = bidderRequest.ortb2.regs.gpp_sid;
   }
 
-  if (wonBids) {
+  if (wonBids.length) {
     data.wonBids = wonBids;
     wonBids = [];
   }
