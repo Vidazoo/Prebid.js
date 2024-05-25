@@ -45,6 +45,9 @@ const bidderIframeList = {
     bidder: 'discovery',
     iframeURL: 'https://api.popin.cc/topic/prebid-topics-frame.html'
   }, {
+    bidder: 'undertone',
+    iframeURL: 'https://creative-p.undertone.com/spk-public/topics_frame.html'
+  }, {
     bidder: 'vidazoo',
     iframeURL: 'https://static.vidazoo.com/topics_api/topics_frame.html'
   }]
@@ -192,13 +195,12 @@ export function receiveMessage(evt) {
         const iframeTopicsData = getTopicsData(domain, topics);
         iframeTopicsData && storeInLocalStorage(bidder, iframeTopicsData);
       }
-    } catch (err) {
-    }
+    } catch (err) { }
   }
 }
 
 /**
- Function to store Topics data received from iframe in storage(name: "prebid:topics")
+Function to store Topics data received from iframe in storage(name: "prebid:topics")
  * @param {Topics} topics
  */
 export function storeInLocalStorage(bidder, topics) {
@@ -246,7 +248,7 @@ export function loadTopicsForBidders(doc = document) {
   if (topics) {
     listenMessagesFromTopicIframe();
     const randomBidders = getRandomBidders(topics.bidders || [], topics.maxTopicCaller || 1)
-    randomBidders && randomBidders.forEach(({bidder, iframeURL, fetchUrl, fetchRate}) => {
+    randomBidders && randomBidders.forEach(({ bidder, iframeURL, fetchUrl, fetchRate }) => {
       if (bidder && iframeURL) {
         let ifrm = doc.createElement('iframe');
         ifrm.name = 'ifrm_'.concat(bidder);
